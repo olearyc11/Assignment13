@@ -16,6 +16,24 @@
 				</div>
 				<div>
 					Full Name: <input type="text" th:field="${user.name}" />
+				</div></br>
+				<div>
+					Address Line 1: <input type="text" th:field="${user.address.addressLine1}">
+				</div>
+				<div>
+					Address Line 2: <input type="text" th:field="${user.address.addressLine2}">
+				</div>
+				<div>
+					City: <input type="text" th:field="${user.address.city}">
+				</div>
+				<div>
+					Region: <input type="text" th:field="${user.address.region}">
+				</div>
+				<div>
+					Country: <input type="text" th:field="${user.address.country}">
+				</div>
+				<div>
+					Zip Code: <input type="text" th:field="${user.address.zipCode}">
 				</div>
 				<div>
 					<input type="submit" value="Update User Account" />
@@ -23,11 +41,34 @@
 			</form>
 			<form th:action="@{/users/{userId}/delete(userId=${user.userId})}" method="post">
 				<input type="submit" value="Delete User Account" />
-			</form>
+			</form></br>
+			<form method="post">
+				<div>
+					<h2>Accounts</h2>
+				</div>
+				<div th:each="account : ${user.accounts}">
+<!--					<a th:href="@{'/users/'+${user.userId}+'/accounts/'+${account.id}}">-->
+						<span th:text="${account.accountName}"></span>
+					</a>
+
+				</div></br>
+				<div>
+					<input type="submit" value="Create New Bank Account"/>
+				</div>
+			</form></br>
+			<div>
+				<a th:href="@{/users}">Back</a>
+			</div>
 		</div>
-		
+
+
+
+
+
 		<div th:unless="${#lists.size(users) == 1}" th:each="user : ${users}">
-		    <span th:text="${user.userId}"></span><br/>
+			<a th:href="@{/users/{userId}(userId=${user.userId})}">
+				<span th:text="${user.userId}"></span>
+			</a><br/>
 			<span th:text="${user.username}"></span><br/>
 			<span th:text="${user.name}"></span><br/>
 			<span th:text="${user.password}"></span>

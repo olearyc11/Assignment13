@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import com.coderscampus.assignment13.domain.Address;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -65,6 +66,29 @@ public class UserService {
 			accountRepo.save(savings);
 		}
 		return userRepo.save(user);
+	}
+
+	public User updateUserWithAddress(User user) {
+		User existingUser = userRepo.findById(user.getUserId()).orElse(new User());
+		Address existingAddress = existingUser.getAddress();
+		if (existingAddress == null) {
+			existingAddress = new Address();
+			existingUser.setAddress(existingAddress);
+			existingAddress.setUser(existingUser);
+		}
+
+		existingAddress.setAddressLine1(user.getAddress().getAddressLine1());
+		existingAddress.setAddressLine2(user.getAddress().getAddressLine2());
+		existingAddress.setCity(user.getAddress().getCity());
+		existingAddress.setRegion(user.getAddress().getRegion());
+		existingAddress.setCountry(user.getAddress().getCountry());
+		existingAddress.setZipCode(user.getAddress().getZipCode());
+
+		existingUser.setUsername(user.getUsername());
+		existingUser.setPassword(user.getPassword());
+		existingUser.setName(user.getName());
+
+		return userRepo.save(existingUser);
 	}
 
 	public void delete(Long userId) {

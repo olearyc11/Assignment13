@@ -3,6 +3,7 @@ package com.coderscampus.assignment13.web;
 import java.util.Arrays;
 import java.util.Set;
 
+import com.coderscampus.assignment13.domain.Address;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -49,14 +50,16 @@ public class UserController {
 	@GetMapping("/users/{userId}")
 	public String getOneUser (ModelMap model, @PathVariable Long userId) {
 		User user = userService.findById(userId);
+		Address address = user.getAddress();
 		model.put("users", Arrays.asList(user));
 		model.put("user", user);
+		model.put("address", address);
 		return "users";
 	}
 	
 	@PostMapping("/users/{userId}")
 	public String postOneUser (User user) {
-		userService.saveUser(user);
+		userService.updateUserWithAddress(user); // user parameter is now the new user information submitted from view
 		return "redirect:/users/"+user.getUserId();
 	}
 	
