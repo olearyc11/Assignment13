@@ -4,12 +4,15 @@ package com.coderscampus.assignment13.service;
 import com.coderscampus.assignment13.domain.Account;
 import com.coderscampus.assignment13.domain.User;
 import com.coderscampus.assignment13.repository.AccountRepository;
+import com.coderscampus.assignment13.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AccountService {
 
+    @Autowired
+    UserRepository userRepo;
     @Autowired
     AccountRepository accountRepo;
     @Autowired
@@ -20,7 +23,21 @@ public class AccountService {
     }
 
     public Account addAccountToUser(User user) {
-        Account account = new Account();
+        int accountNumber = user.getAccounts().size();
+        Account newAccount = new Account();
+        newAccount.setAccountName("Account #" + accountNumber);
 
+        newAccount.getUsers().add(user);
+        user.getAccounts().add(newAccount);
+
+      userRepo.save(user);
+      // should be saving to service????
+
+      return accountRepo.save(newAccount);
+
+    }
+
+    public Account saveAccount(Account account) {
+        return accountRepo.save(account);
     }
 }
