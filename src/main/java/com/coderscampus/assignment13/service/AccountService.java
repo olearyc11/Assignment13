@@ -22,6 +22,7 @@ public class AccountService {
         return accountRepo.findByAccountId(accountId);
     }
 
+
     public Account addAccountToUser(User user) {
         int accountNumber = user.getAccounts().size();
         Account newAccount = new Account();
@@ -30,11 +31,11 @@ public class AccountService {
         newAccount.getUsers().add(user);
         user.getAccounts().add(newAccount);
 
+        Account savedAccount = accountRepo.save(newAccount);
+
       userRepo.save(user);
-      // should be saving to service????
 
-      return accountRepo.save(newAccount);
-
+      return newAccount;
     }
 
     public Account saveAccount(Account account) {
