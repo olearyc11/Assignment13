@@ -42,7 +42,7 @@ public class AccountController {
         Account existingAccount = accountService.findByAccountId(accountId);
         existingAccount.setAccountName(account.getAccountName());
         accountService.saveAccount(existingAccount);
-        return "redirect:/users/" + user.getUserId();
+        return "redirect:/users/" + user.getUserId() + "/accounts/" + account.getAccountId();
     }
 
 
