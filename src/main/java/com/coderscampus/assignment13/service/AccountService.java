@@ -8,6 +8,8 @@ import com.coderscampus.assignment13.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 public class AccountService {
 
@@ -23,15 +25,16 @@ public class AccountService {
     }
 
 
+
     public Account addAccountToUser(User user) {
-        int accountNumber = user.getAccounts().size();
+        int accountNumber = user.getAccounts().size() + 1;
         Account newAccount = new Account();
         newAccount.setAccountName("Account #" + accountNumber);
 
         newAccount.getUsers().add(user);
         user.getAccounts().add(newAccount);
 
-        Account savedAccount = accountRepo.save(newAccount);
+        accountRepo.save(newAccount);
 
       userRepo.save(user);
 
