@@ -59,7 +59,7 @@ public class UserController {
 	
 	@PostMapping("/users/{userId}")
 	public String postOneUser (User user) {
-		userService.updateUserWithAddress(user); // user parameter is now the new user information submitted from view
+		userService.updateUserWithAddress(user);
 		return "redirect:/users/"+user.getUserId();
 	}
 	
