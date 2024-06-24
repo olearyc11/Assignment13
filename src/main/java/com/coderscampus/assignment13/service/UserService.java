@@ -66,6 +66,7 @@ public class UserService {
 			accountRepo.save(savings);
 		}
 		return userRepo.save(user);
+		
 	}
 
 	public User updateUserWithAddress(User user) {
