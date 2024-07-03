@@ -68,4 +68,11 @@ public class UserController {
 		userService.delete(userId);
 		return "redirect:/users";
 	}
+
+	@PostMapping("/users/{userId}/update")
+	public String updateUser (@PathVariable Long userId, User user) {
+		userService.updateUserWithAddress(user);
+		return "redirect:/users/";
+
+	}
 }
