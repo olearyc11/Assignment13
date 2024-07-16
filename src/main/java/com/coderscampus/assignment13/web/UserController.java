@@ -74,8 +74,10 @@ public class UserController {
 
 	@PostMapping("/users/{userId}/update")
 	public String updateUser (@PathVariable Long userId, User user) {
-		System.out.println("Received User: " + user);
-		System.out.println("Password: " + user.getPassword());
+		User existingUser = userService.findById(userId);
+		if (user.getPassword() == null || user.getPassword().isEmpty()) {
+			user.setPassword(existingUser.getPassword());
+		}
 		userService.updateUserWithAddress(user);
 		return "redirect:/users/";
 

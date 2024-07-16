@@ -71,7 +71,6 @@ public class UserService {
 
 	public User updateUserWithAddress(User user) {
 		User existingUser = userRepo.findById(user.getUserId()).orElse(new User());
-		System.out.println(existingUser);
 		Address existingAddress = existingUser.getAddress();
 		if (existingAddress == null) {
 			existingAddress = new Address();
