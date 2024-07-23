@@ -7,6 +7,7 @@ import java.util.Set;
 
 import com.coderscampus.assignment13.domain.Address;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import com.coderscampus.assignment13.domain.Account;
@@ -16,11 +17,15 @@ import com.coderscampus.assignment13.repository.UserRepository;
 
 @Service
 public class UserService {
-	
+
+	private final UserRepository userRepo;
+	private final AccountService accountService;
+
 	@Autowired
-	private UserRepository userRepo;
-	@Autowired
-	private AccountRepository accountRepo;
+	public UserService(UserRepository userRepo, @Lazy AccountService accountService) {
+		this.userRepo = userRepo;
+		this.accountService = accountService;
+	}
 	
 	public List<User> findByUsername(String username) {
 		return userRepo.findByUsername(username);
@@ -62,8 +67,8 @@ public class UserService {
 			
 			user.getAccounts().add(checking);
 			user.getAccounts().add(savings);
-			accountRepo.save(checking);
-			accountRepo.save(savings);
+			accountService.saveAccount(checking);
+			accountService.saveAccount(savings);
 		}
 		return userRepo.save(user);
 		

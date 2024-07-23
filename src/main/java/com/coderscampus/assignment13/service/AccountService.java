@@ -6,6 +6,7 @@ import com.coderscampus.assignment13.domain.User;
 import com.coderscampus.assignment13.repository.AccountRepository;
 import com.coderscampus.assignment13.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -13,18 +14,18 @@ import javax.transaction.Transactional;
 @Service
 public class AccountService {
 
+    private final UserService userService;
+    private final AccountRepository accountRepo;
+
     @Autowired
-    UserRepository userRepo;
-    @Autowired
-    AccountRepository accountRepo;
-    @Autowired
-    UserService userService;
+    public AccountService(@Lazy UserService userService, AccountRepository accountRepo) {
+        this.userService = userService;
+        this.accountRepo = accountRepo;
+    }
 
     public Account findByAccountId(Long accountId) {
         return accountRepo.findByAccountId(accountId);
     }
-
-
 
     public Account addAccountToUser(User user) {
         int accountNumber = user.getAccounts().size() + 1;
@@ -36,7 +37,7 @@ public class AccountService {
 
         accountRepo.save(newAccount);
 
-      userRepo.save(user);
+      userService.saveUser(user);
 
       return newAccount;
     }
